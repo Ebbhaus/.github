@@ -1,0 +1,78 @@
+name: Metrics
+
+on:
+  # Regenerate every 6 hours
+  schedule:
+    - cron: "0 */6 * * *"
+  # Let anyone trigger manually
+  workflow_dispatch:
+  # Rebuild when the workflow itself changes
+  push:
+    branches: ["main"]
+    paths:
+      - ".github/workflows/metrics.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  github-metrics:
+    name: Generate org metrics
+    runs-on: ubuntu-latest
+    steps:
+      # Combined overview: activity, community, repositories, plus topics and followup.
+      - name: Overview
+        uses: lowlighter/metrics@latest
+        with:
+          filename: profile/metrics.svg
+          token: ${{ secrets.METRICS_TOKEN }}
+          user: Ebbhaus
+          template: organization
+          base: header, activity, community, repositories, metadata
+          config_timezone: America/Los_Angeles
+          plugin_followup: yes
+          plugin_topics: yes
+          plugin_topics_mode: icons
+
+      # Language breakdown across the org (public repos only).
+      - name: Languages
+        uses: lowlighter/metrics@latest
+        with:
+          filename: profile/metrics.plugin.languages.svg
+          token: ${{ secrets.METRICS_TOKEN }}
+          user: Ebbhaus
+          template: organization
+          base: ""
+          config_timezone: America/Los_Angeles
+          plugin_languages: yes
+          plugin_languages_ignored: html, css, shell, dockerfile
+          plugin_languages_details: bytes-size, percentage
+          plugin_languages_limit: 8
+
+      # Commit heatmap.
+      - name: Isocalendar
+        uses: lowlighter/metrics@latest
+        with:
+          filename: profile/metrics.plugin.isocalendar.svg
+          token: ${{ secrets.METRICS_TOKEN }}
+          user: Ebbhaus
+          template: organization
+          base: ""
+          config_timezone: America/Los_Angeles
+          plugin_isocalendar: yes
+          plugin_isocalendar_duration: full-year
+
+      # Recent activity feed.
+      - name: Activity
+        uses: lowlighter/metrics@latest
+        with:
+          filename: profile/metrics.plugin.activity.svg
+          token: ${{ secrets.METRICS_TOKEN }}
+          user: Ebbhaus
+          template: organization
+          base: ""
+          config_timezone: America/Los_Angeles
+          plugin_activity: yes
+          plugin_activity_limit: 8
+          plugin_activity_days: 14
+          plugin_activity_filter: issue, pr, release, push, review, ref/create
