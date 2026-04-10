@@ -1,0 +1,7 @@
+{
+  "name": "Release Drafter",
+  "description": "Automatically draft release notes based on merged pull requests.",
+  "iconName": "octicon tag",
+  "categories": ["Automation", "Releases"],
+  "filePatterns": [".*"]
+}

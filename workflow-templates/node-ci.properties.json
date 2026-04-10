@@ -1,0 +1,7 @@
+{
+  "name": "Node CI",
+  "description": "Lint, build, and test a Node.js project across multiple versions.",
+  "iconName": "octicon package",
+  "categories": ["Continuous integration", "JavaScript", "TypeScript"],
+  "filePatterns": ["package\\.json$"]
+}

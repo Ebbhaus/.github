@@ -1,0 +1,7 @@
+{
+  "name": "Stale issues and PRs",
+  "description": "Auto-label and close stale issues and pull requests using actions/stale.",
+  "iconName": "octicon clock",
+  "categories": ["Automation"],
+  "filePatterns": [".*"]
+}

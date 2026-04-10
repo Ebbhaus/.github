@@ -1,0 +1,7 @@
+{
+  "name": "CodeQL Analysis",
+  "description": "Scan your code for security vulnerabilities using GitHub's CodeQL engine.",
+  "iconName": "octicon shield-check",
+  "categories": ["Security", "Code scanning"],
+  "filePatterns": [".*"]
+}
