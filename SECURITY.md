@@ -1,36 +1,37 @@
-# Security Policy
+# Security
 
-## Reporting a vulnerability
+Internal security process for Ebbhaus engineers. If you're not an Ebbhaus
+employee or contractor, you shouldn't be reading this.
 
-If you believe you've found a security vulnerability in any Ebbhaus project,
-please report it privately. **Do not open a public issue or pull request.**
+## Reporting a security issue
 
-Report it via GitHub's private vulnerability reporting:
+If you find or suspect a vulnerability, misconfiguration, leaked credential,
+or suspected compromise in any Ebbhaus system:
 
-1. Go to the repository's **Security** tab.
-2. Click **Report a vulnerability**.
-3. Fill in the details.
+1. **Post in `#eng-security` on Slack** with a short description.
+2. Page the on-call security engineer if it looks active or high severity.
+3. Do **not** file a public-style GitHub issue with details. Track the work in
+   a private issue or ticket linked from the Slack thread.
 
-If that isn't available, email **security@ebbhaus.com** (replace with the real
-address when set up) with:
+## Severity guide
 
-- A description of the issue and its impact.
-- Steps to reproduce, ideally with a proof of concept.
-- Any suggested mitigations you have in mind.
+- **SEV-1**: Active exploitation, customer data at risk, auth bypass, secret
+  leak to the public internet. Page on-call immediately.
+- **SEV-2**: Exploitable but not active, or limited blast radius. Same-day
+  response.
+- **SEV-3**: Hardening, best-practice gaps, low-impact issues. Track as a
+  normal ticket.
 
-We aim to acknowledge reports within 3 business days and will keep you updated
-as we investigate and remediate.
+## Credential leaks
 
-## Supported versions
+If you accidentally commit or expose a secret:
 
-Unless a repository's README says otherwise, only the latest release on `main`
-receives security fixes.
+1. Rotate the secret **first**, before anything else.
+2. Post in `#eng-security`.
+3. Don't just force-push to erase the commit — assume it was scraped.
 
-## Safe harbor
+## Third-party reports
 
-We will not pursue legal action against researchers who:
-
-- Make a good-faith effort to avoid privacy violations, data destruction, and
-  service disruption.
-- Only interact with accounts they own or have explicit permission to test.
-- Give us reasonable time to address the issue before any public disclosure.
+If an external researcher contacts us about a vulnerability, route them to
+`security@ebbhaus.com` and loop in `#eng-security`. Don't engage on the
+technical details yourself until security has triaged.

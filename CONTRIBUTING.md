@@ -1,53 +1,56 @@
-# Contributing
+# How we ship code at Ebbhaus
 
-Thanks for contributing to Ebbhaus. These are the default guidelines that apply
-across all repositories in the org. Individual repos may override them with
-their own `CONTRIBUTING.md`.
+This is the default engineering workflow for all Ebbhaus repos. Individual
+repos can override it with their own `CONTRIBUTING.md` when they need to.
 
-## Getting started
+## Branching
 
-1. Clone the repo and install dependencies as described in its README.
-2. Create a branch off of `main` for your work.
-3. Make your changes in small, focused commits.
-4. Open a pull request against `main` when ready.
-
-## Branches
-
-Use descriptive branch names prefixed by type, e.g.:
-
-- `feat/<short-description>`
-- `fix/<short-description>`
-- `chore/<short-description>`
-- `docs/<short-description>`
+- `main` is always deployable.
+- Work happens on short-lived branches off of `main`.
+- Name branches `<yourhandle>/<short-description>` or `<type>/<description>`
+  where type is `feat`, `fix`, `chore`, `infra`, etc.
+- Delete branches after merge. Don't leave stale branches lying around.
 
 ## Commits
 
-We loosely follow [Conventional Commits](https://www.conventionalcommits.org/).
-A good commit message explains the *why* more than the *what*:
-
-```
-feat(api): add retry with exponential backoff to ingestion client
-
-The ingestion endpoint occasionally returns 503 during deploys. Retrying
-with backoff avoids spurious failures in the learner pipeline.
-```
+- Write commits that explain *why* the change is needed, not just what changed.
+- Small, focused commits are easier to review and revert.
+- We use Conventional Commits (`feat:`, `fix:`, `chore:`, etc.) so release
+  automation and changelogs can parse them.
 
 ## Pull requests
 
-- Keep PRs small and reviewable. Split large changes when you can.
-- Fill out the PR template, including the test plan.
-- Make sure CI is green before requesting review.
-- At least one approving review is required before merging.
-- Prefer "Squash and merge" unless the repo says otherwise.
+- Every change goes through a PR. No direct pushes to `main`.
+- Fill out the PR template — especially the test plan. If there's nothing to
+  test, say so and why.
+- Keep PRs under ~400 lines of diff when you can. Split larger work.
+- CI must be green before merge.
+- At least one approval from a codeowner is required.
+- Default merge strategy is **Squash and merge**.
 
-## Code style
+## Code review
 
-- Follow whatever linter/formatter the repo ships with (Prettier, Ruff, gofmt,
-  etc.). Don't hand-format around the tool.
-- Write tests for new behavior and regressions you fix.
-- Don't leave dead code, commented-out blocks, or TODOs without context.
+- Review within one business day when you're tagged. If you can't, say so and
+  reassign.
+- Reviewers: focus on correctness, clarity, and whether the change matches the
+  stated goal. Style nits are fine but mark them as nits.
+- Authors: don't take feedback personally, and don't argue — either apply it,
+  push back with reasoning, or add a TODO and move on.
 
-## Reporting security issues
+## Testing
 
-Please **do not** open public issues for security problems. See
-[`SECURITY.md`](./SECURITY.md) for how to report them.
+- New behavior needs tests. Regressions get a test that would have caught it.
+- Don't disable or skip tests without an issue link explaining why.
+- Prefer fast, deterministic tests. Flaky tests are bugs.
+
+## Secrets and credentials
+
+- Never commit secrets. If you do, rotate them immediately and tell
+  #eng-security.
+- Use the repo or environment secrets in GitHub Actions, never hardcode.
+- Production credentials live in our secrets manager, not in repos.
+
+## Questions
+
+Ask in `#engineering` on Slack. For security-sensitive things, see
+[`SECURITY.md`](./SECURITY.md).

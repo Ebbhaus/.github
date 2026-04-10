@@ -1,40 +1,52 @@
-name: Bug report
-description: Something isn't working as expected
-labels: ["bug", "triage"]
+name: Bug
+description: Something is broken or behaving incorrectly
+labels: ["bug"]
 body:
-  - type: markdown
-    attributes:
-      value: |
-        Thanks for taking the time to file a bug. Please fill out the sections below so we can reproduce and fix it.
   - type: textarea
-    id: what-happened
+    id: summary
     attributes:
-      label: What happened?
-      description: A clear description of the bug and what you expected to happen instead.
+      label: Summary
+      description: One or two sentences on what's broken.
     validations:
       required: true
   - type: textarea
     id: repro
     attributes:
       label: Steps to reproduce
-      description: Minimal steps to reproduce the issue.
       placeholder: |
-        1. Run '...'
-        2. Click on '...'
-        3. See error
+        1. ...
+        2. ...
+        3. ...
     validations:
       required: true
   - type: textarea
-    id: environment
+    id: expected
+    attributes:
+      label: Expected vs. actual
+    validations:
+      required: true
+  - type: input
+    id: env
     attributes:
       label: Environment
-      description: OS, version, commit SHA, browser, runtime, anything relevant.
+      description: prod / staging / local, commit SHA, user or tenant affected, etc.
     validations:
       required: false
   - type: textarea
     id: logs
     attributes:
-      label: Relevant logs or screenshots
+      label: Logs, traces, screenshots
+      description: Link to Datadog, Sentry, or paste relevant snippets.
       render: shell
     validations:
       required: false
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      options:
+        - SEV-1 (customer-impacting, page on-call)
+        - SEV-2 (degraded, fix this week)
+        - SEV-3 (annoying, fix when we can)
+    validations:
+      required: true

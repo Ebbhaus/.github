@@ -1,21 +1,23 @@
-## Summary
+## What
 
-<!-- What does this PR do and why? Keep it short. -->
+<!-- One or two sentences on what this PR does. -->
 
-## Changes
+## Why
 
-<!-- Bullet list of notable changes. -->
--
--
+<!-- Link the Linear ticket, issue, or RFC. Why are we doing this? -->
 
-## Test plan
+## How to verify
 
-<!-- How was this verified? Paste commands, screenshots, or links. -->
+<!-- Commands, URLs, screenshots, or "covered by tests in X". -->
 - [ ]
 - [ ]
+
+## Risk
+
+<!-- What could go wrong? Is this behind a flag? Reversible? -->
 
 ## Checklist
 
 - [ ] Tests added or updated
-- [ ] Docs updated (if user-facing)
-- [ ] Linked to the relevant issue or ticket
+- [ ] Docs / runbooks updated if behavior changed
+- [ ] No secrets, no dead code, no unrelated changes
