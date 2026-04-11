@@ -15,19 +15,37 @@ on:
 permissions:
   contents: write
 
+env:
+  OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+
 jobs:
   github-metrics:
     name: Generate org metrics
     runs-on: ubuntu-latest
     steps:
+      - uses: 1password/install-cli-action@v3
+      - name: Get GitHub App credentials
+        id: app-creds
+        run: |
+          echo "app-id=$(op read 'op://Ebbhaus/GitHub App/app id')" >> "$GITHUB_OUTPUT"
+          echo "private-key<<GHEOF" >> "$GITHUB_OUTPUT"
+          op read 'op://Ebbhaus/GitHub App/private key' >> "$GITHUB_OUTPUT"
+          echo "GHEOF" >> "$GITHUB_OUTPUT"
+      - uses: actions/create-github-app-token@v3
+        id: app-token
+        with:
+          app-id: ${{ steps.app-creds.outputs.app-id }}
+          private-key: ${{ steps.app-creds.outputs.private-key }}
+          owner: Ebbhaus
+
       # Combined overview: activity, community, repositories, plus topics and followup.
       - name: Overview
         uses: lowlighter/metrics@latest
         with:
           filename: profile/metrics.svg
-          token: ${{ secrets.METRICS_TOKEN }}
+          token: ${{ steps.app-token.outputs.token }}
           user: Ebbhaus
-          template: organization
+          template: classic
           base: header, activity, community, repositories, metadata
           config_timezone: America/Los_Angeles
           plugin_followup: yes
@@ -39,9 +57,9 @@ jobs:
         uses: lowlighter/metrics@latest
         with:
           filename: profile/metrics.plugin.languages.svg
-          token: ${{ secrets.METRICS_TOKEN }}
+          token: ${{ steps.app-token.outputs.token }}
           user: Ebbhaus
-          template: organization
+          template: classic
           base: ""
           config_timezone: America/Los_Angeles
           plugin_languages: yes
@@ -54,9 +72,9 @@ jobs:
         uses: lowlighter/metrics@latest
         with:
           filename: profile/metrics.plugin.isocalendar.svg
-          token: ${{ secrets.METRICS_TOKEN }}
+          token: ${{ steps.app-token.outputs.token }}
           user: Ebbhaus
-          template: organization
+          template: classic
           base: ""
           config_timezone: America/Los_Angeles
           plugin_isocalendar: yes
@@ -67,9 +85,9 @@ jobs:
         uses: lowlighter/metrics@latest
         with:
           filename: profile/metrics.plugin.activity.svg
-          token: ${{ secrets.METRICS_TOKEN }}
+          token: ${{ steps.app-token.outputs.token }}
           user: Ebbhaus
-          template: organization
+          template: classic
           base: ""
           config_timezone: America/Los_Angeles
           plugin_activity: yes
