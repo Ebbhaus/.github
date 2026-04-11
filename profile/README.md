@@ -31,13 +31,6 @@ the systems that power it all.
 </details>
 
 <details>
-<summary>Commit rhythm</summary>
-
-![Commit isocalendar](./metrics.plugin.isocalendar.svg)
-
-</details>
-
-<details>
 <summary>Recent activity</summary>
 
 ![Recent activity](./metrics.plugin.activity.svg)
