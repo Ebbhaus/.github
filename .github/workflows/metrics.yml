@@ -48,7 +48,6 @@ jobs:
           template: classic
           base: header, activity, community, repositories, metadata
           config_timezone: America/Los_Angeles
-          plugin_followup: yes
           plugin_topics: yes
           plugin_topics_mode: icons
 
@@ -66,19 +65,6 @@ jobs:
           plugin_languages_ignored: html, css, shell, dockerfile
           plugin_languages_details: bytes-size, percentage
           plugin_languages_limit: 8
-
-      # Commit heatmap.
-      - name: Isocalendar
-        uses: lowlighter/metrics@latest
-        with:
-          filename: profile/metrics.plugin.isocalendar.svg
-          token: ${{ steps.app-token.outputs.token }}
-          user: Ebbhaus
-          template: classic
-          base: ""
-          config_timezone: America/Los_Angeles
-          plugin_isocalendar: yes
-          plugin_isocalendar_duration: full-year
 
       # Recent activity feed.
       - name: Activity
