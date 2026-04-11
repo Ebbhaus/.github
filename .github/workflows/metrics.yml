@@ -45,7 +45,7 @@ jobs:
           filename: profile/metrics.svg
           token: ${{ steps.app-token.outputs.token }}
           user: Ebbhaus
-          template: organization
+          template: classic
           base: header, activity, community, repositories, metadata
           config_timezone: America/Los_Angeles
           plugin_followup: yes
@@ -59,7 +59,7 @@ jobs:
           filename: profile/metrics.plugin.languages.svg
           token: ${{ steps.app-token.outputs.token }}
           user: Ebbhaus
-          template: organization
+          template: classic
           base: ""
           config_timezone: America/Los_Angeles
           plugin_languages: yes
@@ -74,7 +74,7 @@ jobs:
           filename: profile/metrics.plugin.isocalendar.svg
           token: ${{ steps.app-token.outputs.token }}
           user: Ebbhaus
-          template: organization
+          template: classic
           base: ""
           config_timezone: America/Los_Angeles
           plugin_isocalendar: yes
@@ -87,7 +87,7 @@ jobs:
           filename: profile/metrics.plugin.activity.svg
           token: ${{ steps.app-token.outputs.token }}
           user: Ebbhaus
-          template: organization
+          template: classic
           base: ""
           config_timezone: America/Los_Angeles
           plugin_activity: yes
