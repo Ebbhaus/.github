@@ -11,8 +11,7 @@
 ## Welcome
 
 We're building adaptive learning infrastructure that scales with how people
-actually learn. This is our home on GitHub — experiments, internal tools, and
-the systems that power it all.
+actually learn. This is our home on GitHub.
 
 ## Activity
 
