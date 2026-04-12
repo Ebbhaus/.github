@@ -39,6 +39,23 @@ jobs:
           private-key: ${{ steps.app-creds.outputs.private-key }}
           owner: Ebbhaus
 
+      # Ensure the metrics-renders branch exists and matches main so the
+      # lowlighter/metrics action has something to commit to. The branch is
+      # squash-merged and deleted at the end of each run, so we recreate it
+      # (or force-reset it if a previous run left it behind) every time.
+      - name: Prepare metrics-renders branch
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          MAIN_SHA=$(gh api repos/Ebbhaus/.github/git/ref/heads/main --jq .object.sha)
+          if gh api repos/Ebbhaus/.github/git/ref/heads/metrics-renders >/dev/null 2>&1; then
+            gh api repos/Ebbhaus/.github/git/refs/heads/metrics-renders \
+              -X PATCH -f sha="$MAIN_SHA" -F force=true
+          else
+            gh api repos/Ebbhaus/.github/git/refs \
+              -X POST -f ref=refs/heads/metrics-renders -f sha="$MAIN_SHA"
+          fi
+
       # Combined overview: activity, community, repositories, plus topics and followup.
       - name: Overview
         uses: lowlighter/metrics@latest
