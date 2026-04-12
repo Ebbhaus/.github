@@ -102,5 +102,30 @@ jobs:
           plugin_activity_limit: 8
           plugin_activity_days: 14
           plugin_activity_filter: issue, pr, release, push, review, ref/create
-          output_action: pull-request-squash
+          output_action: commit
           committer_branch: metrics-renders
+
+      # lowlighter/metrics' built-in pull-request output action targets
+      # `committer_branch` as the PR base, which is backwards for us (we want
+      # main as the base). Instead, the steps above commit all three SVGs to
+      # metrics-renders and this step opens + squash-merges a PR from
+      # metrics-renders into main using the GitHub App token. Using the App
+      # token (rather than GITHUB_TOKEN) sidesteps the "GitHub Actions is not
+      # permitted to create or approve pull requests" restriction.
+      - name: Create and merge metrics PR
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          MAIN_SHA=$(gh api repos/Ebbhaus/.github/git/ref/heads/main --jq .object.sha)
+          METRICS_SHA=$(gh api repos/Ebbhaus/.github/git/ref/heads/metrics-renders --jq .object.sha)
+          if [ "$MAIN_SHA" = "$METRICS_SHA" ]; then
+            echo "No metrics changes to merge."
+            exit 0
+          fi
+          PR_URL=$(gh pr create \
+            --repo Ebbhaus/.github \
+            --base main \
+            --head metrics-renders \
+            --title "chore: update profile metrics" \
+            --body "Automated metrics update.")
+          gh pr merge "$PR_URL" --squash --delete-branch
